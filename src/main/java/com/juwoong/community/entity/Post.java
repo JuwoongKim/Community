@@ -8,31 +8,30 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "USERS")
-public class User extends BaseEntity {
+public class Post extends BaseEntity {
+
 	@Id
-	@Column(name = "ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false, length = 100)
-	private String email;
+	@ManyToOne
+	@JoinColumn(name = "id")
+	private User user;
 
-	@Column(nullable = false, length = 100)
-	private String password;
-
-	@Column(nullable = false, length = 100)
-	private String nickName;
+	@OneToMany(mappedBy = "post")
+	private List<Comment> comments = new ArrayList<>();
 
 	@Column(nullable = false, length = 500)
-	private String stateMessage;
+	private String title;
 
-	@OneToMany(mappedBy = "user")
-	private List<Post> Posts = new ArrayList<>();
-
+	@Column(nullable = false, length = 2000)
+	private String content;
 
 }
